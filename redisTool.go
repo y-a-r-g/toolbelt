@@ -14,8 +14,8 @@ type RedisTool struct {
 }
 
 type RedisConfig struct {
-	Url, Auth string
 	Debug     bool
+	Url, Auth string
 	DbIndex   uint
 	PoolSize  uint
 }
@@ -36,7 +36,11 @@ func (t *RedisTool) Configure(config ...interface{}) {
 	}
 
 	json2flag.FlagPrefixed(t.config, map[string]string{
-		"Debug": "debug mode",
+		"Debug":    "debug mode",
+		"Url":      "database url",
+		"DbIndex":  "index of database used",
+		"Auth":     "database auth string",
+		"PoolSize": "maximum connections",
 	}, TRedis.String())
 }
 

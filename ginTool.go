@@ -45,13 +45,14 @@ func (t *GinTool) Configure(config ...interface{}) {
 		*t.config = *config[0].(*GinConfig)
 	}
 
-	json2flag.FlagPrefixed(&t.config, map[string]string{
-		"Debug":     "run in debug mode",
-		"HttpAddr":  "http address to listen",
-		"HttpsAddr": "https address to listen",
+	json2flag.FlagPrefixed(t.config, map[string]string{
+		"Debug":       "run in debug mode",
+		"HttpAddr":    "http address to listen",
+		"HttpsAddr":   "https address to listen",
+		"HttpsDomain": "domain to fetch certificate to",
+		"Timeout":     "request timeout",
+		"MaxClients":  "maximum simultaneous clients",
 	}, TGin.Name())
-
-	t.Engine = gin.New()
 }
 
 func (t *GinTool) Dependencies() []reflect.Type {
@@ -71,10 +72,12 @@ func (t *GinTool) Start(belt IBelt) {
 
 	if t.config.Debug {
 		gin.SetMode(gin.DebugMode)
-		t.Use(requestLogger(log.Logger, t.config.Debug))
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
+
+	t.Engine = gin.New()
+	t.Use(requestLogger(log.Logger, t.config.Debug))
 
 	t.Use(gin.RecoveryWithWriter(log.WriterLevel(logrus.WarnLevel))) //TODO: make buffered writer - this one will spam to email
 

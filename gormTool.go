@@ -35,8 +35,12 @@ func (t *GormTool) Configure(config ...interface{}) {
 	}
 
 	json2flag.FlagPrefixed(t.config, map[string]string{
-		"Debug": "debug mode",
-	}, TGorm.String())
+		"Debug":          "debug mode",
+		"Dialect":        "dialect",
+		"Url":            "database url",
+		"DbMaxIdleConns": "maximum idle connections",
+		"DbMaxOpenConns": "maximum open connections",
+	}, TGorm.Name())
 }
 
 func (t *GormTool) Dependencies() []reflect.Type {

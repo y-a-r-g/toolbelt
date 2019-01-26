@@ -58,7 +58,7 @@ func (t *LogrusTool) Configure(config ...interface{}) {
 		"SmtpUsername": "smtp server username",
 		"SmtpPassword": "smtp server password",
 		"SmtpFrom":     "from this email logs will be sent",
-	}, TLogrus.String())
+	}, TLogrus.Name())
 }
 
 func (t *LogrusTool) Dependencies() []reflect.Type {
@@ -66,7 +66,9 @@ func (t *LogrusTool) Dependencies() []reflect.Type {
 }
 
 func (t *LogrusTool) Start(belt IBelt) {
-	t.Formatter = new(logrus.TextFormatter)
+	t.Logger = logrus.New()
+
+	t.Formatter = &logrus.TextFormatter{}
 	t.Hooks = make(logrus.LevelHooks)
 	t.ExitFunc = os.Exit
 	t.ReportCaller = false

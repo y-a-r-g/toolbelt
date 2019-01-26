@@ -24,7 +24,7 @@ func (t *DummyTool) Configure(config ...interface{}) {
 
 	json2flag.FlagPrefixed(t.config, map[string]string{
 		"Debug": "debug mode",
-	}, TDummy.String())
+	}, TDummy.Name())
 }
 
 func (t *DummyTool) Dependencies() []reflect.Type {
