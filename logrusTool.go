@@ -12,6 +12,7 @@ import (
 )
 
 //TODO: extract mail dependency to mail tool
+//TODO: use separate level for mail
 
 type LogrusTool struct {
 	*logrus.Logger
