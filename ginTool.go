@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/y-a-r-g/json2flag"
-	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/net/netutil"
 	"io/ioutil"
 	"math"
@@ -113,7 +112,7 @@ func (t *GinTool) Start(belt IBelt) {
 	}
 
 	if t.config.HttpsAddr != "" && t.config.HttpsDomain != "" {
-		httpsListener := autocert.NewListener(t.config.HttpsDomain)
+		httpsListener := NewHttpsListener(t.config.HttpsAddr, t.config.HttpsDomain)
 
 		go func() {
 			defer func() {
